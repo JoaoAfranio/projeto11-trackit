@@ -17,5 +17,5 @@ export default function Main({children}){
 const Content = styled.div`
     padding-top: 100px;
     height: 500px;
-    background-color: #E5E5E5;
+    background-color: #F2F2F2;
 `
