@@ -4,8 +4,9 @@ import COLORS from "../../constants/colors";
 import RegisterHabit from "./RegisterHabit"
 
 import { useState } from "react";
+import Habit from "./Habit";
 
-export default function Habits() {
+export default function ListHabits() {
 
     const [openRegister, setOpenRegister] = useState(false);
 
@@ -20,6 +21,7 @@ export default function Habits() {
                     
                     {openRegister && (<RegisterHabit />)}
                     
+                    <Habit />
 
                     <Info>
                         Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
