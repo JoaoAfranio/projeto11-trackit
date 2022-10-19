@@ -84,8 +84,9 @@ const Container = styled.div`
 
 const BoxLoading = styled.div`
     position: absolute;
-    top: 50px;
-    left: 110px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 `
 
 

@@ -7,6 +7,8 @@ import axios from "axios"
 import { useContext, useEffect, useState } from "react";
 import Habit from "./Habit";
 import AuthContext from "../../contexts/auth";
+import { ThreeDots } from "react-loader-spinner";
+import Loading from "../../components/Loading";
 
 export default function ListHabits() {
     const [openRegister, setOpenRegister] = useState(false);
@@ -48,6 +50,10 @@ export default function ListHabits() {
                     </BoxMenu>
                     
                     {openRegister && (<RegisterHabit addHabit={addHabit} setOpenRegister={setOpenRegister}/>)}
+
+                    {listHabit.length === 0 && (
+                        <Loading/>
+                    )}  
 
                     {listHabit.map(h => <Habit removeHabit={removeHabit} key={h.id} info={h}/>)}
                     

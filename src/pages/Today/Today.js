@@ -2,19 +2,50 @@ import Main from "../../components/Main";
 import styled from "styled-components"
 import COLORS from "../../constants/colors";
 import Habit from "./Habit";
+import axios from "axios"
+import { useContext, useEffect, useState } from "react";
+import AuthContext from "../../contexts/auth";
+
+import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br'
+import { ThreeDots } from "react-loader-spinner";
+import Loading from "../../components/Loading";
 
 export default function Today() {
+    const [listHabits, setListHabits] = useState([])
+
+    const { user } = useContext(AuthContext)
+    const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today"
+    const config = {
+        headers: {Authorization : `Bearer ${user.token}`}
+    }
+
+    const today = dayjs().locale('pt-br').format('dddd, DD/MM')
+
+    useEffect(() => {
+        axios.get(URL, config)
+            .then((res) => {
+                setListHabits(res.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }, [listHabits])
+
 
     return (
         <>
             <Main>
                 <Container>
                     <Box>
-                        <h1>Segunda, 17/05</h1>
+                        <h1>{today}</h1>
                         <h2>Nenhum hábito concluído ainda</h2>
                     </Box>
 
-                    <Habit />
+                    {listHabits.length === 0 && (
+                        <Loading/>
+                    )}  
+                    {listHabits.map(h => <Habit setListHabits={setListHabits} key={h.id} info={h} />)}
 
                 </Container>
             </Main>
@@ -41,6 +72,7 @@ const Box = styled.div`
         font-size: 23px;
         color: ${COLORS.darkBlue};
         font-weight: 500;
+        text-transform: capitalize; 
     }
 
     h2 {

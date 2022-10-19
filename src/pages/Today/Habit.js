@@ -1,18 +1,45 @@
+import axios from "axios";
+import { useContext } from "react";
 import styled from "styled-components"
 import COLORS from "../../constants/colors";
+import AuthContext from "../../contexts/auth";
 
-export default function Habit() {
+export default function Habit({info, setListHabits}) {
+    const {id, name, currentSequence, highestSequence, done} = info
+
+    const sequence = (currentSequence === highestSequence)
+
+    const { user } = useContext(AuthContext)
+
+    const URLcheck = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/check`
+    const URLuncheck = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/uncheck`
+    const config = {
+        headers: {Authorization : `Bearer ${user.token}`}
+    }
 
 
+    function checkHabit() {
+        let url = done ? URLuncheck : URLcheck
 
+        axios.post(url,{},config)
+            .then(() => {
+                setListHabits([])
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    
+    
     return (
         <Container>
             <Box>
-                <h1>Ler 1 capítulo de livro</h1>
-                <h2>Sequência atual: 3 dias</h2>
-                <h2>Seu recorde: 5 dias</h2>
+                <h1>{name}</h1>
+                <h2>Sequência atual: <TextDone done={done}>{currentSequence} dias</TextDone></h2>
+                <h2>Seu recorde: <TextSequence sequence={sequence}>{highestSequence} dias</TextSequence></h2>
             </Box>
-            <ion-icon className="icon" name="checkbox"></ion-icon>
+            <ion-icon class={done ? "checked" : "unchecked"} onClick={checkHabit} done={done} name="checkbox"></ion-icon>
         </Container>
     );
 }
@@ -32,10 +59,21 @@ const Container = styled.div`
 
 
     ion-icon {
-        color: ${COLORS.grey};
         font-size: 70px;
+        cursor: pointer;
+        
+        &.checked {
+            color: ${COLORS.green};
+        }   
+
+        &.unchecked {
+            color: ${COLORS.grey}
+        }
     }
+
+
 `
+
 
 const Box = styled.div`
     display: flex;
@@ -54,3 +92,11 @@ const Box = styled.div`
         color: ${COLORS.darkGrey};
     }
 `
+
+const TextSequence = styled.span`
+    color: ${props => props.sequence === true ?  COLORS.green : ""};
+` 
+
+const TextDone = styled.span`
+    color: ${props => props.done === true ?  COLORS.green : ""};
+` 
