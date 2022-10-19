@@ -6,7 +6,7 @@ import Days from "./Days"
 import axios from "axios"
 import AuthContext from "../../contexts/auth"
 
-export default function RegisterHabit({setOpenRegister}) {
+export default function RegisterHabit({setOpenRegister, addHabit}) {
     const [name, setName] = useState("")
     const [days, setDays] = useState([])
 
@@ -28,8 +28,10 @@ export default function RegisterHabit({setOpenRegister}) {
         setDisabled(!disabled)
         axios.post(URL, bodyParams, config)
         .then((res) => {
+            console.log(res)
             setName("")
             setDays([])
+            addHabit(res.data)
             setOpenRegister(false)
         }).catch((err) => {
             alert(err.response.data.details)
@@ -44,7 +46,7 @@ export default function RegisterHabit({setOpenRegister}) {
             <input disabled={disabled} name="name" value={name} onChange={(e) => {setName(e.target.value)}} placeholder="nome do hábito" />
             <Days disabled={disabled} setDays={setDays} days={days}/>
             <BoxButtons>
-                <button disabled={disabled} className="cancel">Cancelar</button>
+                <button disabled={disabled} onClick={() => {setOpenRegister(false)}} className="cancel">Cancelar</button>
                 <button disabled={disabled} onClick={handleRegister}>Salvar</button>
             </BoxButtons>
 

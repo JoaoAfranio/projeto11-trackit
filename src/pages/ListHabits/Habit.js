@@ -1,14 +1,36 @@
+import axios from "axios"
+import { useContext } from "react"
 import styled from "styled-components"
 import COLORS from "../../constants/colors"
+import AuthContext from "../../contexts/auth"
 import Days from "./Days"
 
 
-export default function Habit() {
+export default function Habit({info, removeHabit}) {
+
+    const { user } = useContext(AuthContext)
+    
+    const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${info.id}`
+    const config = {
+        headers: {Authorization : `Bearer ${user.token}`}
+    }
+
+    function deleteHabit() {
+        axios.delete(URL, config)
+            .then((res) => {
+                removeHabit(info.id)
+                console.log(res)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
     return (
         <Container>
-            <h1>Ler 1 capítulo de livro</h1>
-            <Days selectedDays={[1,3,5]} />
-            <ion-icon name="trash-outline"></ion-icon>
+            <h1>{info?.name}</h1>
+            <Days disabled={true} days={info?.days} />
+            <ion-icon onClick={deleteHabit} name="trash-outline"></ion-icon>
         </Container>
     )
 }
@@ -40,5 +62,7 @@ const Container = styled.div`
         position: absolute;
         top: 10px;
         right: 10px;
+        
+        cursor: pointer;
     }
 `

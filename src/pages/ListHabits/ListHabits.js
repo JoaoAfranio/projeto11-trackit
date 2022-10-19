@@ -2,13 +2,41 @@ import Main from "../../components/Main";
 import styled from "styled-components"
 import COLORS from "../../constants/colors";
 import RegisterHabit from "./RegisterHabit"
+import axios from "axios"
 
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Habit from "./Habit";
+import AuthContext from "../../contexts/auth";
 
 export default function ListHabits() {
-
     const [openRegister, setOpenRegister] = useState(false);
+    const [listHabit, setListHabit] = useState([])
+    const { user } = useContext(AuthContext)
+    
+    const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
+    const config = {
+        headers: {Authorization : `Bearer ${user.token}`}
+    }
+
+    useEffect(() => {
+        axios.get(URL,config)
+            .then((res) => {
+                setListHabit(res.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }, [])
+
+
+    function addHabit(hab){
+        setListHabit([...listHabit, hab])
+    }
+
+    function removeHabit(id){
+        const newList = listHabit.filter(h => h.id !== id)
+        setListHabit([...newList])
+    }
 
     return (
         <>
@@ -19,13 +47,17 @@ export default function ListHabits() {
                         <Button onClick={() => {setOpenRegister(!openRegister)}}>+</Button>
                     </BoxMenu>
                     
-                    {openRegister && (<RegisterHabit setOpenRegister={setOpenRegister}/>)}
-                    
-                    <Habit />
+                    {openRegister && (<RegisterHabit addHabit={addHabit} setOpenRegister={setOpenRegister}/>)}
 
-                    <Info>
-                        Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
-                    </Info>
+                    {listHabit.map(h => <Habit removeHabit={removeHabit} key={h.id} info={h}/>)}
+                    
+                    {listHabit.length === 0 && (
+                        <Info>
+                            Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
+                        </Info>
+                    )}
+
+
                 </Container>
             </Main>
         </>

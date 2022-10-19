@@ -27,6 +27,8 @@ export default function Main({children}){
 
 const Content = styled.div`
     padding-top: 100px;
-    height: 500px;
+    min-height: 460px;
+    height: 100%;
     background-color: #F2F2F2;
+    margin-bottom: 70px;
 `
