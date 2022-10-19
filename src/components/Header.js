@@ -1,11 +1,15 @@
+import { useContext } from "react";
 import styled from "styled-components"
 import COLORS from "../constants/colors"
+import AuthContext from "../contexts/auth";
 
 export default function Header() {
+    const {user} = useContext(AuthContext);
+
     return (
         <Container>
             <Title>TrackIt</Title>
-            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="user"/>
+            <img src={user.image} alt="user"/>
         </Container>
 
     )

@@ -3,7 +3,6 @@ import styled from "styled-components"
 import COLORS from "../../constants/colors";
 import Habit from "./Habit";
 
-
 export default function Today() {
 
     return (

@@ -7,10 +7,17 @@ import Register from "./pages/Register/Register"
 import ListHabits from "./pages/ListHabits/ListHabits";
 import Today from "./pages/Today/Today";
 import History from "./pages/History/History";
+import AuthContext from "./contexts/auth";
+
+import { useState } from "react";
 
 export default function App() {
+
+    const [user, setUser] = useState("batata");
+
+
     return (
-        <>
+        <AuthContext.Provider value={{user, setUser}}>
             <GlobalStyle />
             <BrowserRouter>
                 <Routes>
@@ -22,6 +29,6 @@ export default function App() {
                 </Routes>
             </BrowserRouter>
 
-        </>
+        </AuthContext.Provider>
     )
 }

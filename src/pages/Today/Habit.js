@@ -2,6 +2,9 @@ import styled from "styled-components"
 import COLORS from "../../constants/colors";
 
 export default function Habit() {
+
+
+
     return (
         <Container>
             <Box>
