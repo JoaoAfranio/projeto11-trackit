@@ -19,7 +19,7 @@ export default function ListHabits() {
                         <Button onClick={() => {setOpenRegister(!openRegister)}}>+</Button>
                     </BoxMenu>
                     
-                    {openRegister && (<RegisterHabit />)}
+                    {openRegister && (<RegisterHabit setOpenRegister={setOpenRegister}/>)}
                     
                     <Habit />
 

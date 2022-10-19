@@ -1,17 +1,58 @@
+import { useContext, useState } from "react"
+import { ThreeDots } from "react-loader-spinner"
 import styled from "styled-components"
 import COLORS from "../../constants/colors"
 import Days from "./Days"
+import axios from "axios"
+import AuthContext from "../../contexts/auth"
 
-export default function RegisterHabit() {
+export default function RegisterHabit({setOpenRegister}) {
+    const [name, setName] = useState("")
+    const [days, setDays] = useState([])
+
+    const { user } = useContext(AuthContext)
+
+    const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
+    const config = {
+        headers: {Authorization : `Bearer ${user.token}`}
+    }
+
+    const [disabled, setDisabled] = useState(false)
+
+    function handleRegister() {
+        const bodyParams = {
+            name: name,
+            days: days
+        }
+
+        setDisabled(!disabled)
+        axios.post(URL, bodyParams, config)
+        .then((res) => {
+            setName("")
+            setDays([])
+            setOpenRegister(false)
+        }).catch((err) => {
+            alert(err.response.data.details)
+            setDisabled(false)
+        })
+
+    }
+
 
     return (
-        <Container>
-            <input placeholder="nome do hábito" />
-            <Days selectedDays={[]}/>
+        <Container disabled={disabled}>
+            <input disabled={disabled} name="name" value={name} onChange={(e) => {setName(e.target.value)}} placeholder="nome do hábito" />
+            <Days disabled={disabled} setDays={setDays} days={days}/>
             <BoxButtons>
-                <button className="cancel">Cancelar</button>
-                <button>Salvar</button>
+                <button disabled={disabled} className="cancel">Cancelar</button>
+                <button disabled={disabled} onClick={handleRegister}>Salvar</button>
             </BoxButtons>
+
+            {disabled && (
+                <BoxLoading>
+                    <ThreeDots className="loading" color={COLORS.darkBlue} visible={true}/>
+                </BoxLoading>
+            )}
         </Container>
     )
 }
@@ -21,6 +62,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     margin-bottom: 30px;
+    position: relative;
 
     background-color: #FFFFFF;
 
@@ -28,12 +70,20 @@ const Container = styled.div`
 
     border-radius: 5px;
 
+    opacity: ${props => props.disabled ? "50%" : ""};
+
     input {
         height: 45px;
         font-size: 20px;
         outline: none;
         color: ${COLORS.darkGrey}
     }
+`
+
+const BoxLoading = styled.div`
+    position: absolute;
+    top: 50px;
+    left: 110px;
 `
 
 

@@ -1,12 +1,26 @@
 import styled from "styled-components"
 import COLORS from "../../constants/colors"
 
-export default function Days({selectedDays}) {
-    const days = ["D", "S", "T", "Q", "Q" , "S", "S"]
+export default function Days({days, setDays, disabled}) {
+    const daysWeek = ["D", "S", "T", "Q", "Q" , "S", "S"]
+
+    
+    function handleDay(id) {
+        if (days.includes(id)){
+            const newArray = days.filter(i => id !== i)
+            setDays([...newArray])
+        } else {
+            setDays([...days, id])
+        }
+    }
 
     return (
         <BoxDays>
-            {days.map((d, id) => <Day key="id" className={selectedDays.includes(id) ? "checked" : ""}>{d}</Day>)}    
+            {daysWeek.map((d, id) => 
+                <Day disabled={disabled} key={id} onClick={() => {handleDay(id)}} className={days?.includes(id) ? "checked" : ""}>
+                    {d}
+                </Day>   
+            )}    
         </BoxDays>
     )
 }

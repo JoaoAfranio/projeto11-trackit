@@ -1,5 +1,4 @@
 import styled from "styled-components"
-import iconDelete from "../../assets/img/delete.png"
 import COLORS from "../../constants/colors"
 import Days from "./Days"
 
@@ -9,7 +8,7 @@ export default function Habit() {
         <Container>
             <h1>Ler 1 capítulo de livro</h1>
             <Days selectedDays={[1,3,5]} />
-            <img src={iconDelete} alt="delete"/>
+            <ion-icon name="trash-outline"></ion-icon>
         </Container>
     )
 }
@@ -35,9 +34,8 @@ const Container = styled.div`
     }
 
 
-    img {
-        width: 13px;
-        height: 15px;
+    ion-icon {
+        font-size: 17px;
 
         position: absolute;
         top: 10px;
