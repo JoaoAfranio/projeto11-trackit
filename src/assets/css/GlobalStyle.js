@@ -53,9 +53,10 @@ const GlobalStyle = createGlobalStyle`
   input {
     border-radius: 5px;
     border: 1px solid ${COLORS.grey};
-    color: #DBDBDB;
+    color: ${COLORS.darkGrey};
     padding-left: 10px;
     box-sizing: border-box;
+    outline: none;
   }
 
   button {

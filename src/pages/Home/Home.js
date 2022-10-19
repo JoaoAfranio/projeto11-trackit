@@ -14,7 +14,7 @@ export default function Home() {
                 <Button>Entrar</Button>
             </Form>
 
-            <RegisterLink to="#">Não tem uma conta? Cadastre-se!</RegisterLink>
+            <RegisterLink to="./cadastro">Não tem uma conta? Cadastre-se!</RegisterLink>
         </Container>    
     )
 }
