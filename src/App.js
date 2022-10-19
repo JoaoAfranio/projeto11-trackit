@@ -13,14 +13,7 @@ import { useState } from "react";
 
 export default function App() {
 
-    const [user, setUser] = useState({
-        "id": 5902,
-        "name": "teste",
-        "image": "https://static.wikia.nocookie.net/wikiesponja/images/4/41/180px-Spongebob-squarepants.png/revision/latest?cb=20120201005813&path-prefix=pt-br",
-        "email": "teste100@hotmail.com",
-        "password": "123456",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTkwMiwiaWF0IjoxNjY2MTk0MDEzfQ.ndHpRo2DvcDOJxmuL2m74hVG63ghB1CfLOdafK9L9eM"
-      });
+    const [user, setUser] = useState({});
 
     const [progress, setProgress] = useState(0)
 
