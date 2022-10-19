@@ -22,9 +22,11 @@ export default function App() {
         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTkwMiwiaWF0IjoxNjY2MTk0MDEzfQ.ndHpRo2DvcDOJxmuL2m74hVG63ghB1CfLOdafK9L9eM"
       });
 
+    const [progress, setProgress] = useState(0)
+
 
     return (
-        <AuthContext.Provider value={{user, setUser}}>
+        <AuthContext.Provider value={{user, setUser, progress, setProgress}}>
             <GlobalStyle />
             <BrowserRouter>
                 <Routes>

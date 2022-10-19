@@ -8,13 +8,12 @@ import AuthContext from "../../contexts/auth";
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br'
-import { ThreeDots } from "react-loader-spinner";
 import Loading from "../../components/Loading";
 
 export default function Today() {
     const [listHabits, setListHabits] = useState([])
 
-    const { user } = useContext(AuthContext)
+    const { user, setProgress } = useContext(AuthContext)
     const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today"
     const config = {
         headers: {Authorization : `Bearer ${user.token}`}
@@ -32,6 +31,9 @@ export default function Today() {
             })
     }, [listHabits])
 
+    const concludedHabits = listHabits.filter(h => h.done === true).length
+    const percetageConcluded =  Math.floor((concludedHabits * 100) / listHabits.length);
+    setProgress(percetageConcluded)
 
     return (
         <>
@@ -39,7 +41,11 @@ export default function Today() {
                 <Container>
                     <Box>
                         <h1>{today}</h1>
-                        <h2>Nenhum hábito concluído ainda</h2>
+                        {concludedHabits > 0 ? 
+                            <h2 className="concluded">{percetageConcluded}% dos hábitos concluídos</h2> : 
+                            <h2>Nenhum hábito concluído ainda</h2>
+                        }
+                        
                     </Box>
 
                     {listHabits.length === 0 && (
@@ -79,6 +85,10 @@ const Box = styled.div`
         font-size: 18px;
         color: ${COLORS.grey};
         font-weight: 500;
+
+        &.concluded {
+            color: ${COLORS.green}
+        }
     }   
 
     
